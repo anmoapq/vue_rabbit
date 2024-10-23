@@ -1,11 +1,12 @@
-import './assets/main.css'
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-
+// 引入初始化样式
+import '@/styles/common.scss'
 import { getCategory } from '@/apis/testapi'
 getCategory().then(res => {
     console.log(res)
