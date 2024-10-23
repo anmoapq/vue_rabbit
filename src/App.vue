@@ -1,9 +1,12 @@
 <script setup>
+import { RouterView } from 'vue-router';
+
 
 </script>
 
 <template>
-  <el-button type="primary">Primary</el-button>s
+  <!-- 一级路由出口 -->
+  <RouterView />
 </template>
 
 <style scoped></style>
