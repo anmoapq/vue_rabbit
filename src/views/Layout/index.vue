@@ -15,12 +15,5 @@ onMounted(() => categoryStore.getCategory())
     <LayoutHeader />
     <RouterView />
     <LayoutFooter />
-    <div class="test">测试</div>
 </template>
-<style>
-.test {
-    color: red;
-    height: 1500px;
-    background-color: blue;
-}
-</style>
+<style></style>
