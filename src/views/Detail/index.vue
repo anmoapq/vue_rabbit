@@ -2,9 +2,11 @@
 import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-
+import { useCartStore } from '@/stores/cartStore'
 import DetailHot from './components/DetailHot.vue';
+import { ElMessage } from 'element-plus';
 
+const cartStore = useCartStore()
 const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {
@@ -14,10 +16,40 @@ const getGoods = async () => {
 onMounted(() => getGoods())
 
 //sku被操作时
+let skuObj = {}
 const skuChange = (sku) => {
-    console.log(sku)
+    skuObj = sku
+}
+
+//count:数量
+const count = ref(1)
+const countChange = (count) => {
+    console.log(count)
+}
+
+//添加到购物车
+const addCart = () => {
+    if (skuObj.skuId) {
+        //已选择,触发action
+        cartStore.addCart({
+            id: goods.value.id,
+            name: goods.value.name,
+            picture: goods.value.mainPictures[0],
+            price: goods.value.price,
+            count: count.value,
+            count: count.value,
+            skuId: skuObj.skuId,
+            attrs: skuObj.specsText,
+            selected: true,
+        }
+        )
+    } else {
+        //未选择 提示用户
+        ElMessage.warning('请选择商品规格')
+    }
 }
 </script>
+
 
 <template>
     <div class="xtx-goods-page">
@@ -30,7 +62,7 @@ const skuChange = (sku) => {
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
                         goods.categories[0].name
-                    }}
+                        }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
                 </el-breadcrumb>
@@ -92,10 +124,10 @@ const skuChange = (sku) => {
                             <!-- sku组件 -->
                             <XtxSku :goods="goods" @change="skuChange" />
                             <!-- 数据组件 -->
-
+                            <el-input-number v-model="count" @change="countChange" />
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCart">
                                     加入购物车
                                 </el-button>
                             </div>
