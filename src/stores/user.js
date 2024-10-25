@@ -11,9 +11,15 @@ export const useUserStore = defineStore('user', () => {
         userInfo.value = res.result
     }
     //返回state和action函数
+
+    //退出清除用户信息
+    const clearUserInfo = () => {
+        userInfo.value = {}
+    }
     return {
         userInfo,
         getUserInfo,
+        clearUserInfo
     }
 },
     {
