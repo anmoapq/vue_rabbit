@@ -22,10 +22,14 @@ const target = ref(null)
 const { elementX, elementY, isOutside } = useMouseInElement(target)
 
 //放大镜效果实现，控制滑块跟随鼠标移动，监听elementX/Y的变化
-
+// 放大镜小滑块的位置
 const left = ref(0)
 const top = ref(0)
-watch([elementX, elementY], () => {
+// 放大镜大图的位置
+const positionX = ref(0)
+const positionY = ref(0)
+watch([elementX, elementY, isOutside], () => {
+    if (isOutside.value) return
     //横向
     if (elementX.value > 100 && elementX.value < 300) {
         left.value = elementX.value - 100;
@@ -40,6 +44,11 @@ watch([elementX, elementY], () => {
 
     if (elementY.value > 300) { top.value = 200 }
     if (elementY.value < 100) { top.value = 0 }
+
+    //控制大图显示
+    positionX.value = -left.value * 2;
+    positionY.value = -top.value * 2;
+
 })
 
 </script>
@@ -51,7 +60,7 @@ watch([elementX, elementY], () => {
         <div class="middle" ref="target">
             <img :src="imageList[activeIndex]" alt="" />
             <!-- 蒙层小滑块 -->
-            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+            <div class="layer" v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
@@ -63,11 +72,11 @@ watch([elementX, elementY], () => {
         <!-- 放大镜大图 -->
         <div class="large" :style="[
             {
-                backgroundImage: `url(${imageList[0]})`,
-                backgroundPositionX: `0px`,
-                backgroundPositionY: `0px`,
+                backgroundImage: `url(${imageList[activeIndex]})`,
+                backgroundPositionX: `${positionX}px`,
+                backgroundPositionY: `${positionY}px`,
             },
-        ]" v-show="false"></div>
+        ]" v-show="!isOutside"></div>
     </div>
 </template>
 
@@ -93,7 +102,7 @@ watch([elementX, elementY], () => {
         z-index: 500;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         background-repeat: no-repeat;
-        // 背景图:盒子的大小 = 2:1  将来控制背景图的移动来实现放大的效果查看 background-position
+        // 背景图:盒子的大小 = 2:1  控制背景图的移动来实现放大的效果查看
         background-size: 800px 800px;
         background-color: #f8f8f8;
     }
@@ -102,7 +111,7 @@ watch([elementX, elementY], () => {
         width: 200px;
         height: 200px;
         background: rgba(0, 0, 0, 0.2);
-        // 绝对定位 然后跟随咱们鼠标控制left和top属性就可以让滑块移动起来
+        // 绝对定位 然后跟随鼠标控制left和top属性就可以让滑块移动起来
         left: 0;
         top: 0;
         position: absolute;
