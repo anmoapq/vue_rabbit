@@ -3,7 +3,7 @@ import LayoutNav from './components/LayoutNav.vue'
 import LayoutHeader from './components/LayoutHeader.vue'
 import LayoutFooter from './components/LayoutFooter.vue'
 import LayoutFixed from './components/LayoutFixed.vue';
-import { usecategoryStore } from '@/stores/category';
+import { usecategoryStore } from '@/stores/categoryStore';
 import { onMounted } from 'vue';
 const categoryStore = usecategoryStore();
 onMounted(() => categoryStore.getCategory())
