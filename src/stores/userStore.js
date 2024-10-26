@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
         const res = await loginAPI({ account, password })
         userInfo.value = res.result
 
-        合并购物车操作
+        //合并购物车操作
         await mergeCartAPI(cartStore.cartList.map(item => {
             return {
                 skuId: item.skuId,
