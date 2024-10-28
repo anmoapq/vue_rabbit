@@ -26,7 +26,6 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
 
 
 <template>
-    {{ formatTime }}
     <div class="xtx-pay-page">
         <div class="container">
             <!-- 付款信息 -->
