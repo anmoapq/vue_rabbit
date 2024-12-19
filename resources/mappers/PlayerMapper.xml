@@ -1,0 +1,9 @@
+<mapper namespace="com.example.Mapper.PlayerMapper">
+    <insert id="insertPlayer" parameterType="com.example.Model.Player">
+        INSERT INTO players (username, password) VALUES (#{username}, #{password})
+    </insert>
+
+    <select id="getPlayerById" parameterType="String" resultType="com.example.Model.Player">
+        SELECT player_id, username, password FROM players WHERE player_id = #{player_id}
+    </select>
+</mapper>

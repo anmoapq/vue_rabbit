@@ -1,0 +1,13 @@
+<mapper namespace="com.example.Mapper.GameMapper">
+    <insert id="insertGame" parameterType="com.example.Model.Game">
+        INSERT INTO games (game_id, snake_positions, food_position, score) VALUES (#{game_id}, #{snake_positions}, #{food_position}, #{score})
+    </insert>
+
+    <update id="updateGame" parameterType="com.example.Model.Game">
+        UPDATE games SET snake_positions = #{snake_positions}, food_position = #{food_position}, score = #{score} WHERE game_id = #{game_id}
+    </update>
+
+    <select id="getGameById" parameterType="String" resultType="com.example.Model.Game">
+        SELECT game_id, snake_positions, food_position, score FROM games WHERE game_id = #{game_id}
+    </select>
+</mapper>
